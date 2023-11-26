@@ -1,16 +1,20 @@
+import { Navigation } from './navigation/navigation';
+import { TrendingMovies } from './navigation/trendingMovies/trendingMovies';
+
 export const App = () => {
   return (
     <div
       style={{
         height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // display: 'flex',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         fontSize: 40,
-        color: '#010101'
+        color: '#010101',
       }}
     >
-      React homework template
+      <Navigation />
+      <TrendingMovies />
     </div>
   );
 };
