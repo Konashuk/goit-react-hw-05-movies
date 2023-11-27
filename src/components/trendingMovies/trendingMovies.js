@@ -4,7 +4,7 @@ import { MovieList } from '../movieList/movieList';
 
 export const TrendingMovies = () => {
   const [movies, setMovies] = useState();
-  const [detailMovie, setDetailMovie] = useState();
+  // const [detailMovie, setDetailMovie] = useState();
 
   const topMovies = async () => {
     try {
