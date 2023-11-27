@@ -1,5 +1,6 @@
+import { SearchForm } from './form/form';
 import { Navigation } from './navigation/navigation';
-import { TrendingMovies } from './navigation/trendingMovies/trendingMovies';
+import { TrendingMovies } from './trendingMovies/trendingMovies';
 
 export const App = () => {
   return (
@@ -14,6 +15,7 @@ export const App = () => {
       }}
     >
       <Navigation />
+      <SearchForm />
       <TrendingMovies />
     </div>
   );

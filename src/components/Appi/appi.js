@@ -12,18 +12,18 @@ export const getTrendingMovies = async () => {
   return response.data;
 };
 
-export const searchMovie = async () => {
+export const getSearchMovie = async value => {
   const response = await axios.get('search/movie', {
     params: {
       api_key: API_KEY,
-      query: 'comedy',
+      query: value,
     },
   });
   return response.data;
 };
 
-export const moreDetail = async () => {
-  const response = await axios.get('movie/57243', {
+export const moreDetail = async id => {
+  const response = await axios.get(`movie/${id}`, {
     params: {
       api_key: API_KEY,
     },
