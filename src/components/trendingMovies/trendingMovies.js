@@ -1,6 +1,7 @@
 import { getTrendingMovies, moreDetail } from 'components/Appi/appi';
 import { useEffect, useState } from 'react';
 import { MovieList } from '../movieList/movieList';
+import { MovieCard } from 'components/movieCard/movieCard';
 
 export const TrendingMovies = () => {
   const [movies, setMovies] = useState();
@@ -33,7 +34,7 @@ export const TrendingMovies = () => {
   return (
     <main>
       <h1>Trending today</h1>
-      <p>{detailMovie}</p>
+      {detailMovie && <MovieCard movie={detailMovie} />}
 
       <MovieList movies={movies} onMovieClick={onClickMovie} />
     </main>

@@ -30,3 +30,21 @@ export const moreDetail = async id => {
   });
   return response.data;
 };
+
+export const castDetail = async id => {
+  const response = await axios.get(`movie/${id}/credits`, {
+    params: {
+      api_key: API_KEY,
+    },
+  });
+  return response.data;
+};
+
+export const reviewsDetail = async id => {
+  const response = await axios.get(`movie/${id}/reviews`, {
+    params: {
+      api_key: API_KEY,
+    },
+  });
+  return response.data;
+};
