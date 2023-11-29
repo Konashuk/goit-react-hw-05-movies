@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { getSearchMovie } from 'components/Appi/appi';
-import { MovieList } from 'components/movieList/movieList';
+import { getSearchMovie } from 'components/appi';
+import { MovieList } from 'components/movieList';
 
-export const SearchForm = () => {
+export const Movies = () => {
   const [movies, setMovies] = useState('');
-
   const [searchMovies, setSearchMovies] = useState([]);
 
-  const newMovies = async event => {
+  const newMovies = async () => {
     try {
-      event.preventDefault();
       const response = await getSearchMovie(movies);
       console.log(response);
       setSearchMovies(response.results);

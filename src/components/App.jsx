@@ -1,6 +1,9 @@
-import { SearchForm } from './form/form';
-import { Navigation } from './navigation/navigation';
-import { TrendingMovies } from './trendingMovies/trendingMovies';
+import { Movies } from './pages/Movies';
+import { NavLink, Route, Routes } from 'react-router-dom';
+import { MovieDetails } from './pages/MovieDetails';
+import { Cast } from './pages/Cast';
+import { Reviews } from './pages/Reviews';
+import { Home } from './pages/Home';
 
 export const App = () => {
   return (
@@ -10,13 +13,30 @@ export const App = () => {
         // display: 'flex',
         // justifyContent: 'center',
         // alignItems: 'center',
-        fontSize: 40,
+        margin: 12,
+        fontSize: 30,
         color: '#010101',
       }}
     >
-      <Navigation />
-      <SearchForm />
-      <TrendingMovies />
+      <div>
+        <header>
+          <nav>
+            <ul>
+              <li>
+                <NavLink to="/">Home</NavLink>
+                <NavLink to="/movies">Movies</NavLink>
+              </li>
+            </ul>
+          </nav>
+        </header>
+      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies/:movieId" element={<MovieDetails />} />
+        <Route path="movies/:movieId/cast" element={<Cast />} />
+        <Route path="movies/:movieId/reviews" element={<Reviews />} />
+      </Routes>
     </div>
   );
 };
