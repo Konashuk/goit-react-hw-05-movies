@@ -5,7 +5,7 @@ import { Loader } from './loader';
 
 export const Cast = () => {
   const params = useParams();
-  const [casts, setCasts] = useState();
+  const [cast, setCasts] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -13,7 +13,8 @@ export const Cast = () => {
       try {
         setIsLoading(true);
         const response = await castDetail(params.movieId);
-        setCasts(response);
+        console.log(response);
+        setCasts(response.cast);
       } catch (error) {
         console.log(error.statusText);
       } finally {
@@ -25,21 +26,22 @@ export const Cast = () => {
 
   return (
     <div>
-      {casts.cast.map(({ name, character, profile_path }) => {
-        const base = `https://image.tmdb.org/t/p/w200${profile_path}`;
-        return (
-          <div>
-            {isLoading && <Loader />}
-            <img src={base} alt={name} />
-            <ul>
-              <li>
-                <p>{name}</p>
-              </li>
-            </ul>
-            <p>Character: {character}</p>
-          </div>
-        );
-      })}
+      {cast &&
+        cast.map(({ name, character, profile_path, id }) => {
+          const base = `https://image.tmdb.org/t/p/w200${profile_path}`;
+          return (
+            <div key={id}>
+              {isLoading && <Loader />}
+              <img src={base} alt={name} />
+              <ul>
+                <li>
+                  <p>{name}</p>
+                </li>
+              </ul>
+              <p>Character: {character}</p>
+            </div>
+          );
+        })}
     </div>
   );
 };

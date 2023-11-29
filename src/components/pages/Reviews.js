@@ -12,9 +12,9 @@ export const Reviews = () => {
     async function clickReviews() {
       try {
         setIsLoading(true);
-
         const response = await reviewsDetail(params.movieId);
-        setReviews(response);
+        console.log(response.results);
+        setReviews(response.results);
       } catch (error) {
         console.log(error.statusText);
       } finally {
@@ -23,20 +23,22 @@ export const Reviews = () => {
     }
     clickReviews();
   }, [params]);
-  if (reviews.results.length === 0) {
+
+  if (!reviews || reviews.length === 0) {
     return <p>We don't have any reviews for this movie</p>;
   }
   return (
     <ul>
-      {reviews.results.map(({ author, content }) => {
-        return (
-          <li>
-            {isLoading && <Loader />}
-            {author}
-            <p>{content}</p>
-          </li>
-        );
-      })}
+      {reviews &&
+        reviews.map(({ author, content, id }) => {
+          return (
+            <li key={id}>
+              {isLoading && <Loader />}
+              {author}
+              <p>{content}</p>
+            </li>
+          );
+        })}
     </ul>
   );
 };
