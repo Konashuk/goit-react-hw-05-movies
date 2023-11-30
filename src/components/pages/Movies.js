@@ -6,7 +6,8 @@ export const Movies = () => {
   const [movies, setMovies] = useState('');
   const [searchMovies, setSearchMovies] = useState([]);
 
-  const newMovies = async () => {
+  const newMovies = async event => {
+    event.preventDefault();
     try {
       const response = await getSearchMovie(movies);
       console.log(response);
@@ -23,7 +24,7 @@ export const Movies = () => {
     <div>
       <form onSubmit={newMovies}>
         <input type="text" onChange={getSearchItems} />
-        <button>Search</button>
+        <button type="submit">Search</button>
       </form>
       <MovieList movies={searchMovies} />
     </div>

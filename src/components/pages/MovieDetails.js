@@ -1,18 +1,23 @@
 import { moreDetail } from 'components/appi';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { Loader } from './loader';
 
 export const MovieDetails = () => {
   const params = useParams();
   const [movies, setMovies] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getMovies() {
       try {
+        setIsLoading(true);
         const response = await moreDetail(params.movieId);
         setMovies(response);
       } catch (error) {
         console.log(error.statusText);
+      } finally {
+        setIsLoading(false);
       }
     }
     getMovies();
@@ -24,18 +29,39 @@ export const MovieDetails = () => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       {movies && (
         <div>
-          <img src={base} alt={title} />
-          <h2>{title}</h2>
-          <p>User score: {score}% </p>
-          <h3>Overview</h3>
-          <p>{overview}</p>
-          <h4>Genres</h4>
-          {genres && genres.map(({ name, id }) => <p key={id}>{name}</p>)}
+          <div
+            style={{
+              display: 'flex',
+            }}
+          >
+            <img src={base} alt={title} />
+            <div
+              style={{
+                margin: 10,
+              }}
+            >
+              <h2>{title}</h2>
+              <p>User score: {score}% </p>
+              <h3>Overview</h3>
+              <p>{overview}</p>
+              <h4>Genres</h4>
+              {genres && genres.map(({ name, id }) => <p key={id}>{name}</p>)}
+            </div>
+          </div>
           <p>Aditional information</p>
-          <Link to={`/movies/${movies.id}/cast`}>Cast</Link>
-          <Link to={`/movies/${movies.id}/reviews`}>Rewiews</Link>
+          <ul>
+            <li>
+              <NavLink to="cast">Cast</NavLink>
+            </li>
+            <li>
+              <NavLink to="reviews">Rewiews</NavLink>
+            </li>
+          </ul>
+
+          <Outlet />
         </div>
       )}
     </div>

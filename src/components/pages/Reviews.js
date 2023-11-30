@@ -28,17 +28,19 @@ export const Reviews = () => {
     return <p>We don't have any reviews for this movie</p>;
   }
   return (
-    <ul>
-      {reviews &&
-        reviews.map(({ author, content, id }) => {
-          return (
-            <li key={id}>
-              {isLoading && <Loader />}
-              {author}
-              <p>{content}</p>
-            </li>
-          );
-        })}
-    </ul>
+    <div>
+      {isLoading && <Loader />}
+      <ul>
+        {reviews &&
+          reviews.map(({ author, content, id }) => {
+            return (
+              <li key={id}>
+                {author}
+                <p>{content}</p>
+              </li>
+            );
+          })}
+      </ul>
+    </div>
   );
 };

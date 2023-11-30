@@ -26,19 +26,24 @@ export const Cast = () => {
 
   return (
     <div>
+      {isLoading && <Loader />}
       {cast &&
         cast.map(({ name, character, profile_path, id }) => {
           const base = `https://image.tmdb.org/t/p/w200${profile_path}`;
           return (
-            <div key={id}>
-              {isLoading && <Loader />}
+            <div
+              key={id}
+              style={{
+                display: 'flex',
+              }}
+            >
               <img src={base} alt={name} />
               <ul>
                 <li>
                   <p>{name}</p>
+                  <p>Character: {character}</p>
                 </li>
               </ul>
-              <p>Character: {character}</p>
             </div>
           );
         })}
