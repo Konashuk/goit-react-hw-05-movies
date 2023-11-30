@@ -3,17 +3,19 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loader } from './loader';
 
-export const Cast = () => {
-  const params = useParams();
+export default function Cast() {
+  const { movieId } = useParams();
   const [cast, setCasts] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function clickCast() {
+      if (!movieId) {
+        return;
+      }
       try {
         setIsLoading(true);
-        const response = await castDetail(params.movieId);
-        console.log(response);
+        const response = await castDetail(movieId);
         setCasts(response.cast);
       } catch (error) {
         console.log(error.statusText);
@@ -22,14 +24,16 @@ export const Cast = () => {
       }
     }
     clickCast();
-  }, [params]);
+  }, [movieId]);
 
   return (
     <div>
       {isLoading && <Loader />}
       {cast &&
         cast.map(({ name, character, profile_path, id }) => {
-          const base = `https://image.tmdb.org/t/p/w200${profile_path}`;
+          const basePoster = `https://image.tmdb.org/t/p/w200${profile_path}`;
+          const defaultImg =
+            'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
           return (
             <div
               key={id}
@@ -37,7 +41,11 @@ export const Cast = () => {
                 display: 'flex',
               }}
             >
-              <img src={base} alt={name} />
+              <img
+                src={profile_path ? basePoster : defaultImg}
+                alt={name}
+                width={200}
+              />
               <ul>
                 <li>
                   <p>{name}</p>
@@ -49,4 +57,4 @@ export const Cast = () => {
         })}
     </div>
   );
-};
+}

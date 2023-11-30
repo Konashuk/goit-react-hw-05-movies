@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { MovieList } from '../movieList';
 import { Loader } from './loader';
 
-export const Home = () => {
+export default function Home() {
   const [movies, setMovies] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,4 +33,4 @@ export const Home = () => {
       <MovieList movies={movies} />
     </main>
   );
-};
+}

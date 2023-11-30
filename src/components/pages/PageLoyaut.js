@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { Loader } from './loader';
 
-export const Pageloyaut = () => {
+export default function PageLoyaut() {
   return (
     <div
       style={{
@@ -64,8 +66,10 @@ export const Pageloyaut = () => {
       </header>
 
       <main>
-        <Outlet />
+        <Suspense fallback={<Loader />}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );
-};
+}

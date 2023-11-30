@@ -1,27 +1,37 @@
 import { useState } from 'react';
 import { getSearchMovie } from 'components/appi';
 import { MovieList } from 'components/movieList';
+import { useSearchParams } from 'react-router-dom';
+import { Loader } from './loader';
 
-export const Movies = () => {
-  const [movies, setMovies] = useState('');
+export default function Movies() {
+  const [params, setParams] = useSearchParams();
   const [searchMovies, setSearchMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const newMovies = async event => {
     event.preventDefault();
     try {
-      const response = await getSearchMovie(movies);
-      console.log(response);
+      setIsLoading(true);
+      const response = await getSearchMovie(params.get('query'));
       setSearchMovies(response.results);
     } catch (error) {
       console.log(error.statusText);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const getSearchItems = event => {
-    setMovies(event.target.value);
+    setParams({ query: event.target.value });
   };
   return (
-    <div>
+    <div
+      style={{
+        margin: 10,
+      }}
+    >
+      {isLoading && <Loader />}
       <form onSubmit={newMovies}>
         <input type="text" onChange={getSearchItems} />
         <button type="submit">Search</button>
@@ -29,4 +39,4 @@ export const Movies = () => {
       <MovieList movies={searchMovies} />
     </div>
   );
-};
+}

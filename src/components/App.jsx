@@ -1,11 +1,13 @@
-import { Movies } from './pages/Movies';
 import { Route, Routes } from 'react-router-dom';
-import { MovieDetails } from './pages/MovieDetails';
-import { Cast } from './pages/Cast';
-import { Reviews } from './pages/Reviews';
-import { Home } from './pages/Home';
-import { NotFound } from './pages/notFound';
-import { Pageloyaut } from './pages/PageLoyaut';
+import { lazy } from 'react';
+
+const Pageloyaut = lazy(() => import('./pages/PageLoyaut'));
+const Home = lazy(() => import('./pages/Home'));
+const Movies = lazy(() => import('./pages/Movies'));
+const MovieDetails = lazy(() => import('./pages/MovieDetails'));
+const Cast = lazy(() => import('./pages/Cast'));
+const Reviews = lazy(() => import('./pages/Reviews'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 export const App = () => {
   return (

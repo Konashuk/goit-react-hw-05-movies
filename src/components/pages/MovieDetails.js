@@ -1,12 +1,20 @@
 import { moreDetail } from 'components/appi';
-import { useEffect, useState } from 'react';
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 import { Loader } from './loader';
 
-export const MovieDetails = () => {
+export default function MovieDetails() {
   const params = useParams();
   const [movies, setMovies] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
+  const backLinkRef = useRef(location);
 
   useEffect(() => {
     async function getMovies() {
@@ -24,11 +32,14 @@ export const MovieDetails = () => {
   }, [params]);
 
   const { title, overview, genres, poster_path, vote_average } = movies;
-  const base = `https://image.tmdb.org/t/p/w300${poster_path}`;
+  const basePoster = `https://image.tmdb.org/t/p/w300${poster_path}`;
+  const defaultImg =
+    'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
   const score = Math.round(vote_average * 10);
 
   return (
     <div>
+      <Link to={backLinkRef.current.state?.from ?? '/'}> ⬅️ Go back</Link>
       {isLoading && <Loader />}
       {movies && (
         <div>
@@ -37,7 +48,11 @@ export const MovieDetails = () => {
               display: 'flex',
             }}
           >
-            <img src={base} alt={title} />
+            <img
+              src={poster_path ? basePoster : defaultImg}
+              alt={title}
+              width={300}
+            />
             <div
               style={{
                 margin: 10,
@@ -60,10 +75,9 @@ export const MovieDetails = () => {
               <NavLink to="reviews">Rewiews</NavLink>
             </li>
           </ul>
-
           <Outlet />
         </div>
       )}
     </div>
   );
-};
+}
