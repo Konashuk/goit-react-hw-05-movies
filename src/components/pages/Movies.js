@@ -22,6 +22,19 @@ export default function Movies() {
     }
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await getSearchMovie(params.get('query'));
+  //       setSearchMovies(response.results);
+  //     } catch (error) {
+  //       console.log(error.statusText);
+  //     } finally {
+  //     }
+  //   };
+  //   fetchData();
+  // }, [params]);
+
   const getSearchItems = event => {
     setParams({ query: event.target.value });
   };
@@ -31,11 +44,11 @@ export default function Movies() {
         margin: 10,
       }}
     >
-      {isLoading && <Loader />}
       <form onSubmit={newMovies}>
         <input type="text" onChange={getSearchItems} />
         <button type="submit">Search</button>
       </form>
+      {isLoading && <Loader />}
       <MovieList movies={searchMovies} />
     </div>
   );
