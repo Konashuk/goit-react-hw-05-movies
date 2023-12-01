@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSearchMovie } from 'components/appi';
 import { MovieList } from 'components/movieList';
 import { useSearchParams } from 'react-router-dom';
@@ -9,34 +9,24 @@ export default function Movies() {
   const [searchMovies, setSearchMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const newMovies = async event => {
-    event.preventDefault();
-    try {
-      setIsLoading(true);
-      const response = await getSearchMovie(params.get('query'));
-      setSearchMovies(response.results);
-    } catch (error) {
-      console.log(error.statusText);
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await getSearchMovie(params.get('query'));
+        setSearchMovies(response.results);
+      } catch (error) {
+        console.log(error.statusText);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await getSearchMovie(params.get('query'));
-  //       setSearchMovies(response.results);
-  //     } catch (error) {
-  //       console.log(error.statusText);
-  //     } finally {
-  //     }
-  //   };
-  //   fetchData();
-  // }, [params]);
+    fetchData();
+  }, [params]);
 
   const getSearchItems = event => {
-    setParams({ query: event.target.value });
+    event.preventDefault();
+    const inputValue = event.target.elements.query.value;
+    setParams({ query: inputValue });
   };
   return (
     <div
@@ -44,12 +34,13 @@ export default function Movies() {
         margin: 10,
       }}
     >
-      <form onSubmit={newMovies}>
-        <input type="text" onChange={getSearchItems} />
-        <button type="submit">Search</button>
+      <form onSubmit={getSearchItems}>
+        <input type="text" name="query" />
+        <button>Search</button>
       </form>
-      {isLoading && <Loader />}
+
       <MovieList movies={searchMovies} />
+      {isLoading && <Loader />}
     </div>
   );
 }
